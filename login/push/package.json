@@ -1,0 +1,18 @@
+{
+  "name": "node_push_notification",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "web-push": "^3.3.3"
+  },
+  "description": ""
+}
