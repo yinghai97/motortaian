@@ -1,0 +1,5 @@
+customer_service.html
+60 因為使用了 tel 所以點擊該號碼時會自動轉到用戶手機的 撥打界面等待撥打動作
+
+customer_service.js
+跟index.html一樣 都用使用 autologin.php 讓用戶在開啟頁面上自動在後台進行登入工作

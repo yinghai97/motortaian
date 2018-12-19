@@ -1,0 +1,17 @@
+register.js
+9-20 原理跟index.js（37-49行）很相似，都是點擊後把值用ajaxcall傳到php (請閱讀index.html的基本流程.txt（31-38行）)
+
+Registeryh.php
+6 檢查用戶時候填齊了 所有需要的資料（email,name,password）
+14 加密，為了用戶的保障
+16 生成一個1-1000的隨機數並經過加密的activation_code，這個的用途是為了避免用戶的賬號被非法激活
+20-21 查閱該註冊的 email是否已存在，
+22 因為email存在
+24-25  傳回 response
+29 $error經過了上面的所有的過濾都沒有產生變化，而他的初始值也是空的
+31 把name，email，password，activation_code存入mysql
+35 如果$result有值就代表存入成功
+37-40 把這些值存到對應的session內 
+41 include（activateemail.php) 內會使用 37-40的session （請閱讀發送email基本概念.txt （10-23行））
+43-44 為了避免用戶在創建賬戶之後到index.html時進行autologin所以必須把email和password的session裡的值設為空
+因為用戶還沒有到郵件 激活賬戶，所以邏輯上用戶是不可能在創建完新賬戶之後就馬上自動登入

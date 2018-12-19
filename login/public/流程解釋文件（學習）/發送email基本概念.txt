@@ -1,0 +1,33 @@
+發送email的需要
+class.phpmailer.php
+class.smtp.php
+PHPMailerAutoload.php
+記得把這三個php放在 跟 發送email的php 同一個文件夾
+
+在這目前有兩個發送email的php
+activateemail.php 和 checkoutemail.php
+
+activateemail.php（需要更改的行 （15,16,20，25-38））
+用在當用戶申請賬戶成功時 向用戶的電郵發送激活網址
+（在這邊強烈建議後續開發者使用 手機激活，為了避免幽靈用戶與確保賬戶的真實性）
+15 請填入公司的email（發件人）(目前使用xxx@gmail.com，請更改成正確的email)
+16 email的密碼
+記得使用該email賬戶到此網址激活
+*** https://myaccount.google.com/lesssecureapps  ***
+還有必須注意一點,不同的開發者如果使用同個email進行開發，google將會基於安全問題，禁止未授權的設備進行發送電郵
+*** email 發到用戶端時很有可能會發到 email裡的junk（垃圾文件），應該是群發的關係
+20 請填入公司的email（發件人）（目前使用xxx@gmail.com，請更改成正確的email）
+19 把存在 session（email）的email 存在$to
+21 理所當然的收件人就是$to了
+25-38 郵件內容
+29 內使用session（email）和session（activecode）是為了讓這個激活網址能夠被 verify.php 辨別用戶（請到google 搜尋php get 相關質詢）
+
+
+checkoutemail.php（需要更改的行 （15,16,20，25-36））
+這裡跟activateemail.php 相識
+32 是從session中調出 station_ID
+33 是從session中調出 checkin_time
+34 是從session中調出 checkout_time
+
+
+

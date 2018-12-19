@@ -1,0 +1,69 @@
+在每一個頁面內都會使用ajax 在不刷新用戶界面的情況下 到back_end/Autologin.php ，
+偵測用戶是否在上次登入賬戶後並在沒登出的情況下保留了 session（email）和 session （password）
+session （email）和 session （password）用於讓用戶自動登入該賬戶當打開html的該瞬間。
+。。。。。。請到Autologin.php 了解流程詳情
+
+----------------------------------------------------------------------------------------------------------
+index.html
+5 manifest.json -pwa必備 (詳情請看 pwa基本概念.txt)
+8 把頁面設置為不能滑動（scoll）
+10 設定網頁的icon
+11 因為safari的載入界面（splashscreen）對manifest.json的icon兼容所以需要
+增加這個js/applewebapp.js，其實這個的內部是html，會這樣寫成js是為了讓index.html看起來比較簡單
+13 用於手機界面和電腦界面的css
+17 自定義的css
+104 是一個申請訂閱 notification的javascript
+107 index.js 是主要控制index.html用的
+
+index.js
+13 是創造一個叫btn的button
+14 創造一個 link 的 (a)hyperlink
+17 把剛剛做的 btn 定義成 logined的內部子元素（childElement）
+18 把剛剛做的 link 定義成 btn 的內部子元素（childElement）
+19 把已經存了的cookie（email）調出來並顯示在 叫Email的input 的value上
+20 把已經存了的cookie（pw）調出來並顯示在 叫Password的input 的value上
+25-35 用ajax運行autologin.php 並在 30行 查詢是否傳回來的json 內有name存在
+如果有就代表登入成功便會開始運行 32行的signined（）；
+37 當叫submit的button 被點擊時
+39 把叫Email和Password的value 存到IDandPassword裡
+44 把叫Email的value 存在一個叫 email的cookie 裡面（下次開啟該網頁時第19行的getcookie（email）會把上次setcookie的值顯示出來）
+45 把叫Password的value 存在一個叫 pw的cookie 裡面（下次開啟該網頁時第20行的getcookie（pw）會把上次setcookie的值顯示出來）
+49 用ajaxCall()
+53 ajaxcall是一個用post的方式傳到php 的ajax 方法
+59 這邊選擇的是把值傳到 Loginyh.php
+60 這邊是把sendtoPHP（在index.js 53）發到receivefromjs（Loginyh.php 3）
+61 成功傳發送並傳回時
+63 把傳回的值轉換成json
+65 查看在傳回來的 json 內有沒有response 有的話就把 hint 變成 response所代表的值
+66  查看在傳回來的 json 內有沒有name 有的話就把 hint 變成 歡迎+(name所代表的值）+登入 並在68行把傳回來的值傳到signined（）內
+75-92 不需要更改，是把存cookie和取讀cookie寫成function 方便每次使用（不建議做任何更改）
+93 signined 是用於 用戶成功登入後的動作
+因為登入界面和已登入界面是寫在同一個index.html內 所以
+在登入後必須顯示一些未登入界面沒有的element並隱藏一些未登入界面的element
+94-96 顯示navigation（登出按鈕，主屏幕按鈕，掃描按鈕）因為在未登入的時候這些按鈕必須被隱藏，而登入後必須把這些按鈕顯示給用戶看，這很符合應用邏輯
+97 logined區塊被flex的方式現實出來（請查詢flex和block的分別）
+103 因為就算用戶登入後也有可能出現2種情況，分別是未使用任何車位和已經使用著車位
+105 進行還沒有車位的判斷
+108 因為還沒車位所以 link 必須是到 stationCheckin.html 進行輸入車位 （請查看 StationCkeckin.html的基本流程.txt）
+113 進行有車位後的動作 
+116 因為已有車位那用戶點擊 link 之後到 stationcheckout.html 進行登出車位的動作 （請查看 StationCkeckout.html的基本流程.txt）
+******** 18行 已經把link放進 btn內了所以在網頁上點擊btn就等於點了link
+
+
+Loginyh.php
+2 登入mysql
+3 接收post[receivefromjs] (跟index.js 的第60行有關係)
+4 查看 $q 時候存在值
+6 開啟session功能 （session和cookie 的分別請到 google 查詢）
+10 確保如果其中一個沒值得，就代表用戶沒輸入email 或者密碼
+21 加密 ，因為很多用戶會使用同樣的密碼在不同的平台，為了保障用戶使用密碼必須經過加密才存到數據庫（重要）
+23 在mysql 查詢時候有 email 和 密碼同時吻合的數據
+31 吻合就帶表用戶賬號存在
+33 active=0 代表還沒激活賬戶，並再36行傳 叫用戶到電郵activate他的賬戶
+38 active不是0 那麼就代表用戶登入成功了，
+39 把email存在叫email的session內（用在autologin）
+40 把密碼存在叫password的session內（用在autologin）
+41 include profile.php 為了讀取用戶資料（姓名，車位信息，登入時間）並echo該信息
+46 email或密碼跟mysql內的賬戶不吻合
+49 echo 一個叫用戶輸入正確的賬號和密碼的提示
+

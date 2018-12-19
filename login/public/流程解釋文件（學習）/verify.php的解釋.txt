@@ -1,0 +1,10 @@
+當用戶開啟（用戶會從email收到）此 php時
+成功創建賬戶後，用戶能在email中回收到類似
+http:/localhost/login/public/back_end/verify.php？email=xxxxx&activation_code=xxxxx
+
+
+5 用get的方式查詢網址內email 和 activation_code
+15 如果全吻合就代表 mysql中的Active是0
+17 把Active 改成1 就代表驗證成功
+19 如果不是全部吻合就代表 改賬號在之前已被激活了 ， 所以Active早已經是1
+24 網址錯誤才會導致無法在mysql 選取

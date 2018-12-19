@@ -1,0 +1,23 @@
+StationCkeckin.html
+這是一個輸入車位的界面
+http://localhost/login/public/StationCheckin.html?stationID=xxxx
+如果在以上的網址後面的xxxx填寫一些值。將會在開啟此界面時顯示無法更改車位的界面 （這裡就是老師要的QR 掃車位功能）
+
+
+checkin.js
+5 param就是網址?的值
+7 查看是否存在?stationID=
+8 從=之後拿到值
+9 關閉叫station的input的輸入功能（因為用戶在掃了QR之後不被應許更改任何值）
+12-13 做一個mysql能存取的的timedate 格式（這裡並不建議用客戶端的時間，比較建議使用線上的時間api，為了避免用戶通過篡改時間並導致時間錯誤問題，但目前本人並未發現免費的時間api，請後續跟進）
+15-22 跟每個頁面用樣會進行自動登入（autologin）動作
+29-61 的概念跟index.js 的ajax相識（請閱讀 index.html的基本流程.txt）
+
+StationCheckin.php
+7 從session中拿到email
+8 從session中拿到密碼
+10 進行對 mysql 內的數據庫進行比對
+13 存入車位和開始時間在該用戶賬號
+16 傳回success
+21 傳回error（可能是斷線或者，車位存入失敗）
+25 傳回response （可能是斷線並，可能session裡的email或密碼有問題）

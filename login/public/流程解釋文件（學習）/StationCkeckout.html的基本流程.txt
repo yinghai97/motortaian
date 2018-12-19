@@ -1,0 +1,8 @@
+checkout.js
+概念跟checkin.js相似
+6-13 進行自動登入
+16-22 把時間傳到StationCheckout.php
+
+StationCheckout.php
+8 好像很多此一舉，其實是為了在待會發送收據郵件時所備用的
+21 這是一個發送email的php （請閱讀 發送email基本概念.txt）
